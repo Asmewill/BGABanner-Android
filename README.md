@@ -71,6 +71,7 @@ dependencies {
 >配置数据源的方式1：通过传入数据模型并结合 Adapter 的方式配置数据源。这种方式主要用于加载网络图片，以及实现少于3页时的无限轮播
 
 ```java
+注意：new BGABanner.Adapter<ImageView, String>这个里面的传入了二个泛型，对应的是fillBannerItem(BGABanner banner, ImageView itemView, String model, int position)里面的第二个和第三个参数的类型
 mContentBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
     @Override
     public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
@@ -106,6 +107,7 @@ mContentBanner.setData(R.drawable.uoko_guide_foreground_1, R.drawable.uoko_guide
 ### 4.监听广告 item 的单击事件，在 BGABanner 里已经帮开发者处理了防止重复点击事件
 
 ```java
+注意：new BGABanner.Adapter<ImageView, String>这个里面的传入了二个泛型，对应的是fillBannerItem(BGABanner banner, ImageView itemView, String model, int position)里面的第二个和第三个参数的类型
 mContentBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
     @Override
     public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
