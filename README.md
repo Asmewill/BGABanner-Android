@@ -62,6 +62,7 @@ dependencies {
     app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
     app:banner_pointTopBottomMargin="15dp"
     app:banner_transitionEffect="alpha" />
+ app:banner_pointContainerBackground="@android:color/transparent"  指示器的背景透明
 ```
 
 ### 3.在 Activity 或者 Fragment 中配置 BGABanner 的数据源
@@ -71,7 +72,8 @@ dependencies {
 >配置数据源的方式1：通过传入数据模型并结合 Adapter 的方式配置数据源。这种方式主要用于加载网络图片，以及实现少于3页时的无限轮播
 
 ```java
-注意：new BGABanner.Adapter<ImageView, String>这个里面的传入了二个泛型，对应的是fillBannerItem(BGABanner banner, ImageView itemView, String model, int position)里面的第二个和第三个参数的类型
+注意：new BGABanner.Adapter<ImageView, String>这个里面的传入了二个泛型，对应的是
+fillBannerItem(BGABanner banner, ImageView itemView, String model, int position)里面的第二个和第三个参数的类型
 mContentBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
     @Override
     public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
@@ -85,7 +87,9 @@ mContentBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
     }
 });
 
-mContentBanner.setData(Arrays.asList("网络图片路径1", "网络图片路径2", "网络图片路径3"), Arrays.asList("提示文字1", "提示文字2", "提示文字3"));
+mContentBanner.setData(Arrays.asList("网络图片路径1", "网络图片路径2", "网络图片路径3"), Arrays.asList("提示文字1", "提示文字2", 
+"提示文字3"));
+注意：这个时候，如果mContentBanner.setData(Arrays.asList("网络图片路径1", "网络图片路径2", "网络图片路径3"))；不会显示提示信息
 ```
 
 > 配置数据源的方式2：通过直接传入视图集合的方式配置数据源，主要用于自定义引导页每个页面布局的情况
@@ -96,18 +100,23 @@ views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_1));
 views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_2));
 views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_3));
 mContentBanner.setData(views);
+注意：这个时候，传入的tips==null的，所以是不会显示提示信息
 ```
 
 > 配置数据源的方式3：通过传入图片资源 id 的方式配置数据源，主要用于引导页每一页都是只显示图片的情况
 
 ```
 mContentBanner.setData(R.drawable.uoko_guide_foreground_1, R.drawable.uoko_guide_foreground_2, R.drawable.uoko_guide_foreground_3);
+注意：这个时候，传入的tips==null的，所以是不会显示提示信息
 ```
 
 ### 4.监听广告 item 的单击事件，在 BGABanner 里已经帮开发者处理了防止重复点击事件
 
 ```java
-注意：new BGABanner.Adapter<ImageView, String>这个里面的传入了二个泛型，对应的是fillBannerItem(BGABanner banner, ImageView itemView, String model, int position)里面的第二个和第三个参数的类型
+注意：new BGABanner.Adapter<ImageView, String>这个里面的传入了二个泛型，对应的是
+fillBannerItem(BGABanner banner, ImageView itemView, String model, int position)里面的第二个和第三个参数的类型
+
+
 mContentBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
     @Override
     public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
@@ -126,6 +135,66 @@ mContentBanner.setEnterSkipViewIdAndDelegate(R.id.btn_guide_enter, R.id.tv_guide
         finish();
     }
 });
+```
+```xml
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                style="@style/MatchMatch">
+
+    <cn.bingoogolapple.bgabanner.BGAGuideLinkageLayout
+        style="@style/MatchMatch">
+
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/banner_guide_background"
+            style="@style/MatchMatch"
+            app:banner_pageChangeDuration="1000"
+            app:banner_pointAutoPlayAble="false"
+            app:banner_pointContainerBackground="@android:color/transparent"
+            app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+            app:banner_pointTopBottomMargin="15dp"
+            app:banner_transitionEffect="fade"/>
+
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/banner_guide_foreground"
+            style="@style/MatchMatch"
+            app:banner_pageChangeDuration="1000"
+            app:banner_pointAutoPlayAble="false"
+            app:banner_pointContainerBackground="@android:color/transparent"
+            app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+            app:banner_pointTopBottomMargin="15dp"
+            app:banner_transitionEffect="alpha"
+            android:visibility="visible"/>
+    </cn.bingoogolapple.bgabanner.BGAGuideLinkageLayout>
+
+    <TextView
+        android:id="@+id/tv_guide_skip"
+        style="@style/WrapWrap"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:padding="4dp"
+        android:text="跳过 >"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <Button
+        android:id="@+id/btn_guide_enter"
+        style="@style/WrapWrap"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/selector_btn_test"
+        android:padding="8dp"
+        android:text="进入主界面"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+</RelativeLayout>
 ```
 
 ## 自定义属性说明
