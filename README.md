@@ -53,6 +53,8 @@ dependencies {
 ### 2.在布局文件中添加 BGABanner
 
 ```xml
+引入xmlns命名空间：  xmlns:app="http://schemas.android.com/apk/res-auto"
+
 <cn.bingoogolapple.bgabanner.BGABanner
     android:id="@+id/banner_guide_content"
     style="@style/MatchMatch"
